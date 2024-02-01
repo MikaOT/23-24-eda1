@@ -1,0 +1,99 @@
+@startuml
+
+class List<T> {
+  -head: Node<T>
+  +List()
+  +add(data: T)
+  +addFirst(data: T)
+  +remove(data: T): boolean
+  +getFirst(): Node<T>
+  +isEmpty(): boolean
+  +size(): int
+}
+
+class Node<T> {
+  -data: T
+  -next: Node<T>
+  +Node(data: T)
+  +getData(): T
+  +setData(data: T)
+  +getNext(): Node<T>
+  +setNext(next: Node<T>)
+}
+
+class Paciente {
+  -nombre: String
+  -diasAlimentacion: List<DiaAlimentacion>
+  +Paciente(nombre: String)
+  +agregarDiaAlimentacion(dia: DiaAlimentacion)
+  +buscarDiaAlimentacion(numeroDia: int): DiaAlimentacion
+  +getNombre(): String
+  +getDiasAlimentacion(): List<DiaAlimentacion>
+}
+
+class DiaAlimentacion {
+  -numeroDia: int
+  -ingestas: List<Ingesta>
+  +DiaAlimentacion(numeroDia: int)
+  +agregarIngesta(ingesta: Ingesta)
+  +buscarIngesta(tipoIngesta: int): Ingesta
+  +getNumeroDia(): int
+  +getIngestas(): List<Ingesta>
+}
+
+class Ingesta {
+  -tipoIngesta: int
+  -alimentos: List<Alimento>
+  +Ingesta(tipoIngesta: int)
+  +agregarAlimento(alimento: Alimento)
+  +getTipoIngesta(): int
+  +getAlimentos(): List<Alimento>
+}
+
+class Alimento {
+  -nombre: String
+  +Alimento(nombre: String)
+  +getNombre(): String
+}
+
+class EncuestaAlimentaria {
+  -paciente: Paciente
+  -scanner: Scanner
+  -altura: double
+  -peso: double
+  -sexo: String
+  -edad: int
+  -frecuenciaEjercicio: String
+  +EncuestaAlimentaria(nombrePaciente: String, altura: double, peso: double, sexo: String, edad: int, frecuenciaEjercicio: String)
+  +iniciarEncuesta()
+  +mostrarResumen()
+}
+
+class InterfazUsuario {
+  -scanner: Scanner
+  +InterfazUsuario()
+  +mostrarInstrucciones()
+  +pedirConfirmacionInstrucciones(): boolean
+  +solicitarNombrePaciente(): String
+  +solicitarAlturaPaciente(): double
+  +solicitarPesoPaciente(): double
+  +solicitarSexoPaciente(): String
+  +solicitarEdadPaciente(): int
+  +solicitarFrecuenciaEjercicio(): String
+}
+
+class Main {
+  +main(args: String[])
+}
+
+Paciente --> DiaAlimentacion : Has
+DiaAlimentacion --> Ingesta : Has
+Ingesta --> Alimento : Has
+EncuestaAlimentaria --> Paciente : Has
+Main --> EncuestaAlimentaria : Use
+Main --> InterfazUsuario : Use
+EncuestaAlimentaria --> List : Use
+DiaAlimentacion --> List : Use
+Ingesta --> List : Use
+List --> Node : Use
+@enduml
