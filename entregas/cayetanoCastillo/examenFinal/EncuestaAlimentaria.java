@@ -23,66 +23,85 @@ public class EncuestaAlimentaria {
     }
 
     public void iniciarEncuesta() {
-        int seleccionDia;
-        int seleccionIngesta;
-        String seleccionAlimento;
-
         while (true) {
-            System.out.println("Seleccione día (1-5) o -1 para terminar:");
-            seleccionDia = scanner.nextInt();
+            int seleccionDia = solicitarDia();
             if (seleccionDia == -1) {
                 break;
             }
 
-            // Validar que la selección del día esté en el rango permitido
-            if (seleccionDia < 1 || seleccionDia > 5) {
-                System.out.println("Por favor, ingrese un número entre 1 y 5 para el día.");
-                continue; // Vuelve al inicio del bucle
-            }
-
-            DiaAlimentacion dia = paciente.buscarDiaAlimentacion(seleccionDia);
-            if (dia == null) {
-                dia = new DiaAlimentacion(seleccionDia);
-                paciente.agregarDiaAlimentacion(dia);
-            }
-
-            while (true) {
-                System.out.println(
-                        "Seleccione ingesta: 1 (Desayuno), 2 (Media mañana), 3 (Almuerzo), 4 (Merienda), 5 (Cena), -1 (Menú anterior):");
-                seleccionIngesta = scanner.nextInt();
-                if (seleccionIngesta == -1) {
-                    break;
-                }
-
-                // Validar que la selección de la ingesta esté en el rango permitido
-                if (seleccionIngesta < 1 || seleccionIngesta > 5) {
-                    System.out.println("Por favor, ingrese un número entre 1 y 5 para la ingesta.");
-                    continue; // Vuelve al inicio del bucle de ingesta
-                }
-
-                Ingesta ingesta = dia.buscarIngesta(seleccionIngesta);
-                if (ingesta == null) {
-                    ingesta = new Ingesta(seleccionIngesta);
-                    dia.agregarIngesta(ingesta);
-                }
-
-                while (true) {
-                    System.out.println("Ingrese un alimento del " + tipoIngesta(seleccionIngesta) + " del día "
-                            + seleccionDia + " (-1 para terminar, -2 para listar alimentos ingresados):");
-                    seleccionAlimento = scanner.next();
-                    if (seleccionAlimento.equals("-1")) {
-                        break;
-                    } else if (seleccionAlimento.equals("-2")) {
-                        listarAlimentos(ingesta);
-                    } else {
-                        ingesta.agregarAlimento(new Alimento(seleccionAlimento));
-                    }
-                }
-
-            }
+            DiaAlimentacion dia = obtenerOCrearDia(seleccionDia);
+            manejarIngestas(dia);
         }
 
         mostrarResumen();
+    }
+
+    private int solicitarDia() {
+        System.out.println("Seleccione día (1-5) o -1 para terminar:");
+        int seleccionDia = scanner.nextInt();
+        while (seleccionDia < -1 || seleccionDia > 5 || seleccionDia == 0) {
+            System.out.println("Por favor, ingrese un número entre 1 y 5 para el día, o -1 para terminar.");
+            seleccionDia = scanner.nextInt();
+        }
+        return seleccionDia;
+    }
+
+    private DiaAlimentacion obtenerOCrearDia(int numeroDia) {
+        DiaAlimentacion dia = paciente.buscarDiaAlimentacion(numeroDia);
+        if (dia == null) {
+            dia = new DiaAlimentacion(numeroDia);
+            paciente.agregarDiaAlimentacion(dia);
+        }
+        return dia;
+    }
+
+    private void manejarIngestas(DiaAlimentacion dia) {
+        while (true) {
+            int seleccionIngesta = solicitarIngesta();
+            if (seleccionIngesta == -1) {
+                break;
+            }
+
+            Ingesta ingesta = obtenerOCrearIngesta(dia, seleccionIngesta);
+            manejarAlimentos(ingesta);
+        }
+    }
+
+    private int solicitarIngesta() {
+        System.out.println(
+                "Seleccione ingesta: 1 (Desayuno), 2 (Media mañana), 3 (Almuerzo), 4 (Merienda), 5 (Cena), -1 (Menú anterior):");
+        int seleccionIngesta = scanner.nextInt();
+        while (seleccionIngesta < -1 || seleccionIngesta > 5 || seleccionIngesta == 0) {
+            System.out.println(
+                    "Por favor, ingrese un número entre 1 y 5 para la ingesta, o -1 para volver al menú anterior.");
+            seleccionIngesta = scanner.nextInt();
+        }
+        return seleccionIngesta;
+    }
+
+    private Ingesta obtenerOCrearIngesta(DiaAlimentacion dia, int tipoIngesta) {
+        Ingesta ingesta = dia.buscarIngesta(tipoIngesta);
+        if (ingesta == null) {
+            ingesta = new Ingesta(tipoIngesta);
+            dia.agregarIngesta(ingesta);
+        }
+        return ingesta;
+    }
+
+    private void manejarAlimentos(Ingesta ingesta) {
+        while (true) {
+            System.out.println("Ingrese un alimento para la " + tipoIngesta(ingesta.getTipoIngesta())
+                    + " o '-1' para finalizar, '-2' para listar alimentos:");
+            String seleccionAlimento = scanner.next();
+
+            if (seleccionAlimento.equals("-1")) {
+                break;
+            } else if (seleccionAlimento.equals("-2")) {
+                listarAlimentos(ingesta);
+            } else {
+                ingesta.agregarAlimento(new Alimento(seleccionAlimento));
+            }
+        }
     }
 
     private void listarAlimentos(Ingesta ingesta) {

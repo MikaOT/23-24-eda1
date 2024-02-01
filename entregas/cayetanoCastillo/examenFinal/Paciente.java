@@ -14,12 +14,10 @@ public class Paciente {
     }
 
     public DiaAlimentacion buscarDiaAlimentacion(int numeroDia) {
-        Node<DiaAlimentacion> current = this.diasAlimentacion.getHead();
-        while (current != null) {
-            if (current.getData().getNumeroDia() == numeroDia) {
-                return current.getData();
+        for (DiaAlimentacion dia : diasAlimentacion) {
+            if (dia.getNumeroDia() == numeroDia) {
+                return dia;
             }
-            current = current.getNext();
         }
         return null;
     }

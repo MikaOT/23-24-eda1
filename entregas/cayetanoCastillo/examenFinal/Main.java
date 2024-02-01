@@ -15,7 +15,7 @@ public class Main {
         int edad = interfazUsuario.solicitarEdadPaciente();
         String frecuenciaEjercicio = interfazUsuario.solicitarFrecuenciaEjercicio();
 
-        // Crear instancia de EncuestaAlimentaria y proceder con la encuesta
+        
         EncuestaAlimentaria encuesta = new EncuestaAlimentaria(nombrePaciente, altura, peso, sexo, edad,
                 frecuenciaEjercicio);
         encuesta.iniciarEncuesta();

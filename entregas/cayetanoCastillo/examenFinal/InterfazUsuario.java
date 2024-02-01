@@ -19,7 +19,7 @@ public class InterfazUsuario {
                 "4. No podrá añadir alimentos conformados por más de una palabra, se recomienda ingresarlos con camel case... (TortillaDePatata)");
         System.out.println(
                 "5. Al finalizar el programa se mostrará un resumen de las ingestas del paciente, junto a sus datos.");
-        // Agrega más instrucciones según sea necesario
+
     }
 
     public boolean pedirConfirmacionInstrucciones() {
@@ -46,10 +46,10 @@ public class InterfazUsuario {
         System.out.println("Ingrese la altura del paciente (en cm):");
         while (!scanner.hasNextDouble()) {
             System.out.println("Por favor, ingrese un número válido para la altura:");
-            scanner.next(); // Limpiar entrada incorrecta
+            scanner.next();
         }
         double altura = scanner.nextDouble();
-        scanner.nextLine(); // Limpiar el buffer del escáner
+        scanner.nextLine();
         return altura;
     }
 
@@ -57,10 +57,10 @@ public class InterfazUsuario {
         System.out.println("Ingrese el peso del paciente (en kg):");
         while (!scanner.hasNextDouble()) {
             System.out.println("Por favor, ingrese un número válido para el peso:");
-            scanner.next(); // Limpiar entrada incorrecta
+            scanner.next();
         }
         double peso = scanner.nextDouble();
-        scanner.nextLine(); // Limpiar el buffer del escáner
+        scanner.nextLine();
         return peso;
     }
 
@@ -78,10 +78,10 @@ public class InterfazUsuario {
         System.out.println("Ingrese la edad del paciente:");
         while (!scanner.hasNextInt()) {
             System.out.println("Por favor, ingrese un número válido para la edad:");
-            scanner.next(); // Limpiar entrada incorrecta
+            scanner.next();
         }
         int edad = scanner.nextInt();
-        scanner.nextLine(); // Limpiar el buffer del escáner
+        scanner.nextLine();
         return edad;
     }
 

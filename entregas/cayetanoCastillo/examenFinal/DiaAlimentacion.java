@@ -14,12 +14,10 @@ public class DiaAlimentacion {
     }
 
     public Ingesta buscarIngesta(int tipoIngesta) {
-        Node<Ingesta> current = this.ingestas.getHead();
-        while (current != null) {
-            if (current.getData().getTipoIngesta() == tipoIngesta) {
-                return current.getData();
+        for (Ingesta ingesta : ingestas) {
+            if (ingesta.getTipoIngesta() == tipoIngesta) {
+                return ingesta;
             }
-            current = current.getNext();
         }
         return null;
     }

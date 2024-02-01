@@ -1,15 +1,12 @@
 package ProyectoFinal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Ingesta {
     private int tipoIngesta;
     private List<Alimento> alimentos;
 
     public Ingesta(int tipoIngesta) {
         this.tipoIngesta = tipoIngesta;
-        this.alimentos = new ArrayList<>();
+        this.alimentos = new List<>();
     }
 
     public void agregarAlimento(Alimento alimento) {
@@ -28,6 +25,10 @@ public class Ingesta {
             }
         }
         return null;
+    }
+
+    public void eliminarAlimento(String nombreAlimento) {
+        alimentos.removeIf(alimento -> alimento.getNombre().equalsIgnoreCase(nombreAlimento));
     }
 
     public int getTipoIngesta() {
